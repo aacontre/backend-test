@@ -1,14 +1,19 @@
-pipelile {
-
+pipeline {
     agent any
-    stage("primera etapa"){
-        steps{
-            echo "saludos desde el primer pipeline"
-        }}
+    stages {
+        stage("primera etapa"){
+            steps{
 
-    stage("segunda etapa"){
-        steps{
-            echo "saludos segundo pipeline"
+                echo "saludos desde mi primer pipeline"
+            }
+
         }
+        stage("segunda etapa"){
+            steps{
+                echo "saludos desde mi segundo pipeline"
+            }
+
+        }
+
     }
-}
+ }
