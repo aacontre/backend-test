@@ -9,7 +9,7 @@ pipeline {
                 }
             }
             stages{
-                stage("instalacion dependencias despues de docker")
+                stage("instalacion dependencias despues de docker"){
                     steps{
                         sh 'npm install'
                     }
@@ -18,10 +18,10 @@ pipeline {
                  stage("build del proyecto"){
                     steps{
                         sh 'npm run build'
+                    }
                  }
-        
-             }
             }
-           }     
-        }
+        }     
+     } 
+}
  
