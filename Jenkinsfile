@@ -5,7 +5,7 @@ pipeline {
         USERNAME = "cmd"
     }
     stages {
-        stage(" build - Instalacion dependencias"){
+        stage(" build - Crea imagen node en docker"){
             agent {
                 docker {
                     image 'node:22-alpine'
@@ -32,6 +32,23 @@ pipeline {
                  }
             }
         }     
+        stage("Quality assurance crea imagen docker"){
+            agent{
+                docker{
+                image 'sonarsource/sonar-scanner-cli'
+                reuseNode true
+                }
+            }
+            stages{
+                stage("Quality assurance - sonnarqube"){
+                    steps{
+                        withSonarQubeEnv('sonarqube'){
+                            sh 'sonar-scanner'
+                        }
+                    }
+                }                
+            }
+        }
         stage("delivery - Subida a Nexus") {
             steps{
                 script{
