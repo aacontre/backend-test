@@ -5,7 +5,7 @@ pipeline {
         USERNAME = "cmd"
     }
     stages {
-        stage(" build - Crear imagen en docker"){
+        stage(" build - Instalacion dependencias"){
             agent {
                 docker {
                     image 'node:22-alpine'
@@ -32,6 +32,16 @@ pipeline {
                  }
             }
         }     
-     } 
-}
- 
+        stage("delivery - Subida a Nexus") {
+            steps{
+                script{
+                    docker.withRegistry("localhost:8082" , "registry"){
+                sh 'docker build -t backend-test .'
+                sh 'docker tag backend-test:latest localhost:8082/backend-test:latest'
+                sh 'docker push localhost:8082/backend-test:latest'
+                }
+            }
+        }    
+        }
+    }
+    }
