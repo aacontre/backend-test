@@ -47,7 +47,14 @@ pipeline {
                             sh 'sonar-scanner'
                         }
                     }
-                }                
+                }     
+                stage ("Quality assurance - quality gate"){
+                    steps{
+                        timeout(time:1, unit:'MINUTES'){
+                            waitForQualityGate abortPipeline:true
+                        }
+                    }
+                }       
             }
         }
         stage("delivery - Subida a Nexus") {
